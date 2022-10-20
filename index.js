@@ -216,3 +216,23 @@ function addRole() {
 
 //map Roles and all the existing employees
 
+
+function quit() {
+  const logoText = logo({
+    name: "Goodbye!",
+    font: "ANSI Shadow",
+    lineChars: 10,
+    padding: 2,
+    margin: 3,
+    borderColor: "grey",
+    logoColor: "bold-cyan",
+    textColor: "blue",
+  })
+    .emptyLine()
+    .right("Developed by: Lorena Morales")
+    .right("version 1.0.0")
+    .render();
+
+  console.log(logoText);
+  process.exit();
+}
