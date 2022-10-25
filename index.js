@@ -149,6 +149,7 @@ function loadMainUserOptions() {
 
 function viewEmployees() {
   db.viewAllEmployees().then(([employees]) => {
+    console.log("\n");
     console.table(employees);
     loadMainUserOptions();
   });
@@ -410,8 +411,39 @@ function viewEmployeesByDepartment() {
       },
     ]).then((res)=>{
       db.viewEmployeesByDept(res.deptId).then(([employees])=>{
+        console.log("\n");
         console.table(employees);
         loadMainUserOptions();
+      })
+    })
+  });
+}
+
+function viewEmployeesByManager(){
+  db.viewAllEmployees().then(([employees]) => {
+    const employeeChoices = employees.map((employee) => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id,
+      };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "manager_Id",
+        message: "see Employees for which Manager?",
+        choices: employeeChoices,
+      },
+    ]).then((res)=>{
+      db.viewAllEmployeesbyManager(res.manager_Id).then(([employees])=>{
+        console.log("\n");
+        if (employees.length === 0){
+          console.log("This person has no employees under them");
+          loadMainUserOptions();
+        } else {
+          console.table(employees);
+          loadMainUserOptions();
+        }
       })
     })
   });
