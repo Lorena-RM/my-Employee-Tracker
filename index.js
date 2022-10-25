@@ -369,7 +369,7 @@ function addDepartment() {
     },
   ]).then((res) => {
     db.addDept(res).then(() => {
-      console.log(`successfully added ${res.newDept} to departments`);
+      console.log(`successfully added ${res.name} to departments`);
       loadMainUserOptions();
     });
   });
@@ -389,7 +389,7 @@ function removeDepartment(){
       },
     ]).then((res)=>{
       db.removeDept(res.deptId).then(()=> {
-        console.log("role has been removed!")
+        console.log("Department has been removed!")
         loadMainUserOptions();
       })
     })
