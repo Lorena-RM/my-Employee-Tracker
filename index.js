@@ -270,6 +270,30 @@ function updateEmployeeRole() {
   });
 }
 
+function removeEmployee(){
+  db.viewAllEmployees().then(([employees]) => {
+    const employeeChoices = employees.map((employee) => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id,
+      };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "employee_Id",
+        message: "Which employee would you like to remove?",
+        choices: employeeChoices,
+      },
+    ]).then((res)=> {
+      db.removeEmployee(res.employee_Id)
+    }).then(()=> {
+      console.log("This Employee has been removed and no longer exists in the database");
+      loadMainUserOptions();
+    })
+  });
+}
+
 function updateEmployeeManager() {
   db.viewAllEmployees().then(([employees]) => {
     const employeeChoices = employees.map((employee) => {
