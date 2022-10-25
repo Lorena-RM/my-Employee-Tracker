@@ -51,6 +51,20 @@ class DB {
   addRole(newRole) {
     return this.connection.promise().query("INSERT INTO role SET ?", newRole);
   }
+
+  findAllPossibleManagers(employeeId) {
+    return this.connection.promise().query(
+      "SELECT id, first_name, last_name FROM employee WHERE id != ?",
+      employeeId
+    );
+  }
+
+  updateEmployeeManager( managerId, employeeId ) {
+    return this.connection.promise().query(
+      "UPDATE employee SET manager_id = ? WHERE id = ?",
+      [managerId, employeeId]
+    );
+  }
 }
 
 module.exports = new DB(connection);

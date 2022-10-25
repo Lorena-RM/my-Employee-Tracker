@@ -270,6 +270,48 @@ function updateEmployeeRole() {
   });
 }
 
+function updateEmployeeManager() {
+  db.viewAllEmployees().then(([employees]) => {
+    const employeeChoices = employees.map((employee) => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id,
+      };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "employee_Id",
+        message: "Which employee's manager do you want to update?",
+        choices: employeeChoices,
+      },
+    ]).then((res) => {
+      const employeeId = res.employee_Id;
+      db.findAllPossibleManagers(employeeId)
+            .then(([managers]) => {
+              const managerChoices = managers.map(({ id, first_name, last_name }) => ({
+                name: `${first_name} ${last_name}`,
+                value: id
+              }));
+        prompt([
+          {
+            type: "list",
+            name: "managerChoice",
+            message: "Which employee do you want to set as manager for the selected employee?",
+            choices: managerChoices,
+          }
+        ]).then((res)=>{
+          const managerId = res.managerChoice
+          db.updateEmployeeManager(managerId, employeeId).then(()=>{
+            console.log(`updated the employees manager!`)
+            loadMainUserOptions();
+          })
+        })
+      });
+    });
+  });
+}
+
 function viewDepartments() {
   db.viewAllDepts().then(([depts]) => {
     console.table(depts);
