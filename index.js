@@ -179,7 +179,6 @@ function addEmployee() {
         message: "What is the employee's role?",
         choices: roleChoices,
       }).then((res) => {
-        console.log(res);
         const role = res.roleChoice;
         db.viewAllEmployees().then(([employees]) => {
           const managerChoices = employees.map((employee) => {
@@ -210,16 +209,16 @@ function addEmployee() {
             .then(() => {
               const logoText = logo({
                 name: `Added ${firstName} ${lastName} to the Database`,
-                font: "ANSI Shadow",
+                font: "big",
                 lineChars: 10,
                 padding: 2,
                 margin: 3,
                 borderColor: "grey",
-                logoColor: "bold-cyan",
-                textColor: "blue",
+                logoColor: "bold-yellow",
+                textColor: "yellow",
               })
                 .emptyLine()
-                .right(`congrats on joining the team!`)
+                .right(`congrats on joining the team ${firstName}!`)
                 .right("🎉")
                 .render();
               console.log(logoText);
