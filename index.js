@@ -297,6 +297,7 @@ function removeEmployee(){
 
 function viewRoles() {
   db.viewAllRoles().then(([roles]) => {
+    console.log("\n");
     console.table(roles);
     loadMainUserOptions();
   });
@@ -356,6 +357,7 @@ function removeRole() {
 
 function viewDepartments() {
   db.viewAllDepts().then(([depts]) => {
+    console.log("\n");
     console.table(depts);
     loadMainUserOptions();
   });
@@ -489,6 +491,15 @@ function updateEmployeeManager() {
       });
     });
   });
+}
+
+function viewUtilizedBudgetByDepartment(){
+  db.viewDepartmentBudgets()
+    .then(([departments]) => {
+      console.log("\n");
+      console.table(departments);
+    })
+    .then(() => loadMainUserOptions());
 }
 
 function quit() {
