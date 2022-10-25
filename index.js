@@ -294,6 +294,108 @@ function removeEmployee(){
   });
 }
 
+function viewRoles() {
+  db.viewAllRoles().then(([roles]) => {
+    console.table(roles);
+    loadMainUserOptions();
+  });
+}
+
+function addRole() {
+  db.viewAllDepts().then(([depts]) => {
+    const departmentChoices = depts.map((dept) => {
+      return { name: dept.Department, value: dept.dept_ID };
+    });
+    prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "What is the Title of your new role?",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "what is the Salary of this role?",
+      },
+      {
+        type: "list",
+        name: "department_id",
+        message: "which department would you like to add this role to?",
+        choices: departmentChoices,
+      },
+    ]).then((res) => {
+      db.addRole(res).then(() => {
+        console.log(`successfully added ${res.title} to roles`);
+        loadMainUserOptions();
+      });
+    });
+  });
+}
+
+function removeRole() {
+  db.viewAllRoles().then(([roles])=>{
+    const roleChoices = roles.map((role) => {
+      return { name: role.Role, value: role.id };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "roleChoice",
+        message: "Which role would you like to remove?",
+        choices: roleChoices,
+      }
+    ]).then((res)=>{
+      db.removeRole(res.roleChoice).then(()=>{
+        console.log("role has been removed!")
+        loadMainUserOptions();
+      })
+    })
+  })
+}
+
+function viewDepartments() {
+  db.viewAllDepts().then(([depts]) => {
+    console.table(depts);
+    loadMainUserOptions();
+  });
+}
+
+function addDepartment() {
+  prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "What department would you like to add?",
+    },
+  ]).then((res) => {
+    db.addDept(res).then(() => {
+      console.log(`successfully added ${res.newDept} to departments`);
+      loadMainUserOptions();
+    });
+  });
+}
+
+function removeDepartment(){
+  db.viewAllDepts().then(([depts]) => {
+    const departmentChoices = depts.map((dept) => {
+      return { name: dept.Department, value: dept.dept_ID };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "deptId",
+        message: "What department would you like to remove?",
+        choices: departmentChoices
+      },
+    ]).then((res)=>{
+      db.removeDept(res.deptId).then(()=> {
+        console.log("role has been removed!")
+        loadMainUserOptions();
+      })
+    })
+  });
+}
+
 function updateEmployeeManager() {
   db.viewAllEmployees().then(([employees]) => {
     const employeeChoices = employees.map((employee) => {
@@ -331,66 +433,6 @@ function updateEmployeeManager() {
             loadMainUserOptions();
           })
         })
-      });
-    });
-  });
-}
-
-function viewDepartments() {
-  db.viewAllDepts().then(([depts]) => {
-    console.table(depts);
-    loadMainUserOptions();
-  });
-}
-
-function viewRoles() {
-  db.viewAllRoles().then(([roles]) => {
-    console.table(roles);
-    loadMainUserOptions();
-  });
-}
-
-function addDepartment() {
-  prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "What department would you like to add?",
-    },
-  ]).then((res) => {
-    db.addDept(res).then(() => {
-      console.log(`successfully added ${res.newDept} to departments`);
-      loadMainUserOptions();
-    });
-  });
-}
-
-function addRole() {
-  db.viewAllDepts().then(([depts]) => {
-    const departmentChoices = depts.map((dept) => {
-      return { name: dept.Department, value: dept.dept_ID };
-    });
-    prompt([
-      {
-        type: "input",
-        name: "title",
-        message: "What is the Title of your new role?",
-      },
-      {
-        type: "input",
-        name: "salary",
-        message: "what is the Salary of this role?",
-      },
-      {
-        type: "list",
-        name: "department_id",
-        message: "which department would you like to add this role to?",
-        choices: departmentChoices,
-      },
-    ]).then((res) => {
-      db.addRole(res).then(() => {
-        console.log(`successfully added ${res.title} to roles`);
-        loadMainUserOptions();
       });
     });
   });
