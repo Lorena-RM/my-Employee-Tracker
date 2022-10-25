@@ -396,6 +396,27 @@ function removeDepartment(){
   });
 }
 
+function viewEmployeesByDepartment() {
+  db.viewAllDepts().then(([depts]) => {
+    const departmentChoices = depts.map((dept) => {
+      return { name: dept.Department, value: dept.dept_ID };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "deptId",
+        message: "from What department would you like to see the employees for?",
+        choices: departmentChoices
+      },
+    ]).then((res)=>{
+      db.viewEmployeesByDept(res.deptId).then(([employees])=>{
+        console.table(employees);
+        loadMainUserOptions();
+      })
+    })
+  });
+}
+
 function updateEmployeeManager() {
   db.viewAllEmployees().then(([employees]) => {
     const employeeChoices = employees.map((employee) => {
