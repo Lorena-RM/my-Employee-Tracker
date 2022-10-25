@@ -179,7 +179,7 @@ function addEmployee() {
         choices: roleChoices,
       }).then((res) => {
         console.log(res);
-        const role = res.roleChoice
+        const role = res.roleChoice;
         db.viewAllEmployees().then(([employees]) => {
           const managerChoices = employees.map((employee) => {
             return {
@@ -194,34 +194,77 @@ function addEmployee() {
             name: "managerChoice",
             message: "Who is the employee's manager?",
             choices: managerChoices,
-          }).then((res) => {
-            console.log(res);
-            const newEmployee = {
-              manager_id: res.managerChoice,
-              role_id: role,
-              first_name: firstName,
-              last_name: lastName
-            }
+          })
+            .then((res) => {
+              console.log(res);
+              const newEmployee = {
+                manager_id: res.managerChoice,
+                role_id: role,
+                first_name: firstName,
+                last_name: lastName,
+              };
 
-            db.addNewEmployee(newEmployee);
-          }).then(()=> {
-            const logoText = logo({
-              name: `Added ${firstName} ${lastName} to the Database`,
-              font: "ANSI Shadow",
-              lineChars: 10,
-              padding: 2,
-              margin: 3,
-              borderColor: "grey",
-              logoColor: "bold-cyan",
-              textColor: "blue",
+              db.addNewEmployee(newEmployee);
             })
-              .emptyLine()
-              .right(`congrats on joining the team!`)
-              .right("👏🏼 🎉")
-              .render();
-            console.log(logoText)
-          }).then(() => loadMainUserOptions())
+            .then(() => {
+              const logoText = logo({
+                name: `Added ${firstName} ${lastName} to the Database`,
+                font: "ANSI Shadow",
+                lineChars: 10,
+                padding: 2,
+                margin: 3,
+                borderColor: "grey",
+                logoColor: "bold-cyan",
+                textColor: "blue",
+              })
+                .emptyLine()
+                .right(`congrats on joining the team!`)
+                .right("🎉")
+                .render();
+              console.log(logoText);
+            })
+            .then(() => loadMainUserOptions());
         });
+      });
+    });
+  });
+}
+
+function updateEmployeeRole() {
+  db.viewAllEmployees().then(([employees]) => {
+    const employeeChoices = employees.map((employee) => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id,
+      };
+    });
+    prompt([
+      {
+        type: "list",
+        name: "employee_Id",
+        message: "Which employee role do you want to update?",
+        choices: employeeChoices,
+      },
+    ]).then((res) => {
+      const employeeId = res.employee_Id;
+      db.viewAllRoles().then(([roles]) => {
+        const roleChoices = roles.map((role) => {
+          return { name: role.Role, value: role.id };
+        });
+        prompt([
+          {
+            type: "list",
+            name: "roleChoice",
+            message: "Which new role would you like to assign the selected employee?",
+            choices: roleChoices,
+          }
+        ]).then((res)=>{
+          const roleId = res.roleChoice
+          db.updateEmployee(roleId, employeeId).then(()=>{
+            console.log(`updated the employees role`)
+            loadMainUserOptions();
+          })
+        })
       });
     });
   });

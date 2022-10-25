@@ -1,35 +1,56 @@
 const connection = require("./connection");
 
 class DB {
-    constructor(connection){
-        this.connection = connection
-    }
-    
-    viewAllEmployees(){
-        return this.connection.promise().query("SELECT employee.id, employee.first_name, employee.last_name, role.title AS role, role.salary, department.name AS dept, CONCAT(manager.first_name,' ',manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;")
-    }
+  constructor(connection) {
+    this.connection = connection;
+  }
 
-    addNewEmployee(newEmployee){
-        return this.connection.promise().query("INSERT INTO employee SET ?", newEmployee)
-    }
+  viewAllEmployees() {
+    return this.connection
+      .promise()
+      .query(
+        "SELECT employee.id, employee.first_name, employee.last_name, role.title AS role, role.salary, department.name AS dept, CONCAT(manager.first_name,' ',manager.last_name) AS manager FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department ON role.department_id = department.id LEFT JOIN employee manager ON manager.id = employee.manager_id;"
+      );
+  }
 
-    viewAllDepts(){
-        return this.connection.promise().query("SELECT id AS dept_ID, name AS Department FROM department;");
-    }
+  addNewEmployee(newEmployee) {
+    return this.connection
+      .promise()
+      .query("INSERT INTO employee SET ?", newEmployee);
+  }
 
-    viewAllRoles(){
-        return this.connection.promise().query("SELECT role.id, role.title AS Role, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id;")
-    }
+  updateEmployee(roleId, employeeId) {
+    return this.connection
+      .promise()
+      .query("UPDATE employee SET role_id = ? WHERE id = ?", [
+        roleId,
+        employeeId,
+      ]);
+  }
 
-    
+  viewAllDepts() {
+    return this.connection
+      .promise()
+      .query("SELECT id AS dept_ID, name AS Department FROM department;");
+  }
 
-    addDept(newDept){
-        return this.connection.promise().query("INSERT INTO department SET ?", newDept)
-    }
+  viewAllRoles() {
+    return this.connection
+      .promise()
+      .query(
+        "SELECT role.id, role.title AS Role, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id;"
+      );
+  }
 
-    addRole(newRole){
-        return this.connection.promise().query("INSERT INTO role SET ?", newRole)
-    }
+  addDept(newDept) {
+    return this.connection
+      .promise()
+      .query("INSERT INTO department SET ?", newDept);
+  }
+
+  addRole(newRole) {
+    return this.connection.promise().query("INSERT INTO role SET ?", newRole);
+  }
 }
 
 module.exports = new DB(connection);
