@@ -147,6 +147,86 @@ function loadMainUserOptions() {
   });
 }
 
+function viewEmployees() {
+  db.viewAllEmployees().then(([employees]) => {
+    console.table(employees);
+    loadMainUserOptions();
+  });
+}
+
+function addEmployee() {
+  prompt([
+    {
+      name: "firstName",
+      message: "What is the Employees first name?",
+    },
+    {
+      name: "lastName",
+      message: "What is the Employees last name?",
+    },
+  ]).then((res) => {
+    let firstName = res.firstName;
+    let lastName = res.lastName;
+
+    db.viewAllRoles().then(([roles]) => {
+      const roleChoices = roles.map((role) => {
+        return { name: role.Role, value: role.id };
+      });
+      prompt({
+        type: "list",
+        name: "roleChoice",
+        message: "What is the employee's role?",
+        choices: roleChoices,
+      }).then((res) => {
+        console.log(res);
+        const role = res.roleChoice
+        db.viewAllEmployees().then(([employees]) => {
+          const managerChoices = employees.map((employee) => {
+            return {
+              name: `${employee.first_name} ${employee.last_name}`,
+              value: employee.id,
+            };
+          });
+          managerChoices.push({ name: "No Manager", value: null });
+
+          prompt({
+            type: "list",
+            name: "managerChoice",
+            message: "Who is the employee's manager?",
+            choices: managerChoices,
+          }).then((res) => {
+            console.log(res);
+            const newEmployee = {
+              manager_id: res.managerChoice,
+              role_id: role,
+              first_name: firstName,
+              last_name: lastName
+            }
+
+            db.addNewEmployee(newEmployee);
+          }).then(()=> {
+            const logoText = logo({
+              name: `Added ${firstName} ${lastName} to the Database`,
+              font: "ANSI Shadow",
+              lineChars: 10,
+              padding: 2,
+              margin: 3,
+              borderColor: "grey",
+              logoColor: "bold-cyan",
+              textColor: "blue",
+            })
+              .emptyLine()
+              .right(`congrats on joining the team!`)
+              .right("👏🏼 🎉")
+              .render();
+            console.log(logoText)
+          }).then(() => loadMainUserOptions())
+        });
+      });
+    });
+  });
+}
+
 function viewDepartments() {
   db.viewAllDepts().then(([depts]) => {
     console.table(depts);
@@ -157,13 +237,6 @@ function viewDepartments() {
 function viewRoles() {
   db.viewAllRoles().then(([roles]) => {
     console.table(roles);
-    loadMainUserOptions();
-  });
-}
-
-function viewEmployees() {
-  db.viewAllEmployees().then(([employees]) => {
-    console.table(employees);
     loadMainUserOptions();
   });
 }
@@ -213,9 +286,6 @@ function addRole() {
     });
   });
 }
-
-//map Roles and all the existing employees
-
 
 function quit() {
   const logoText = logo({
