@@ -7,10 +7,10 @@ My Employee Tracker 📝</a>
 ## Table of Contents
 
 - [Description](#description)
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [Resources](#resources)
-- [Tests](#tests)
 - [Questions](#questions)
 
 ## [License](table-of-contents)
@@ -104,7 +104,32 @@ For the Departments in our database, we can view exsisting departments, create n
 
 ![departmentFucntions](./assets/images/deptFunctions.gif)
 
+### additional options
+
+Theres a couple other additional options for the user to choose from the GIF down below shows us the added function for the users visibility to information in the database to the users liking:
+
+![extra](./assets/images/extraFunctions.gif)
 
 ## [Resources](#table-of-contents)
-## [Tests](#table-of-contents)
+
+[DB beaver](https://dbeaver.io/) was an excellent visual resource for me to use in order to be able to view my data base and be able to recognize and connect how my tables work together
+
+Below is an example of my database schema in more of a visual form
+
+![dbbeaver example](./assets/images/Screen%20Shot%202022-10-25%20at%208.01.29%20PM.png)
+
+> [Aggregate Function Descriptions](https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html) helped to determine my view Utilized Budget function
+
+>[for JOINS](https://dev.mysql.com/doc/refman/8.0/en/join.html) helped in the creation of my tables
+
 ## [Questions](#table-of-contents)
+
+Take a look at some other work ive done on my repos from my Github:
+
+* Github: [Lorena-RM](https://github.com/Lorena-RM)
+
+Get in contact with me Directly within linkden or my personal email:
+
+* Linkden: [Lorena Morales](https://www.linkedin.com/in/lorena-morales-496855240/)
+
+* Email: [lorenarm.999@gmail.com](mailto:lorenarm.999@gmail.com)
