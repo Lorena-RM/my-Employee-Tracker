@@ -102,7 +102,7 @@ For the Roles in our database, we are able to view, create and assign roles to a
 ### Department Functions
 For the Departments in our database, we can view exsisting departments, create new Deptartments and delete Departments.
 
-
+![departmentFucntions](./assets/images/deptFunctions.gif)
 
 
 ## [Resources](#table-of-contents)
