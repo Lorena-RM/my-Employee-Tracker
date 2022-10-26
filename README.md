@@ -66,6 +66,7 @@ This application requires that you download the following packages using Node to
 <img src= "https://img.shields.io/badge/npm-inquirer-npm?style=for-the-badge&logo=npm&logoColor=blue">
 <p align="center">
 <img src= "https://img.shields.io/badge/npm-console.table-npm?style=for-the-badge&logo=npm&logoColor=white">
+</p>
 
 The NPM packages are on the package.json for you to simply run this command in your terminal:
 
